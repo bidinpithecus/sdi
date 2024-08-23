@@ -12,8 +12,8 @@ public class ServerDatabase implements IDatabase {
   public ServerDatabase() {}
 
   public void save(double[][] a, String filename) throws RemoteException {
-    var rows = a.length;
-    var cols = a[0].length;
+    int rows = a.length;
+    int cols = a[0].length;
 
     String buffer =
         IntStream.range(0, rows)
@@ -23,20 +23,22 @@ public class ServerDatabase implements IDatabase {
                              .collect(Collectors.joining(", ")))
             .collect(Collectors.joining("; "));
 
-    var bufferedWriter = new BufferedWriter(new FileWriter(filename));
+    BufferedWriter bufferedWriter =
+        new BufferedWriter(new FileWriter(filename));
     bufferedWriter.write(buffer);
 
     bufferedWriter.close();
   }
 
   public double[][] load(String filename) throws RemoteException {
-    try (var bufferedReader = new BufferedReader(new FileReader(filename))) {
+    try (BufferedReader bufferedReader =
+             new BufferedReader(new FileReader(filename))) {
       String[] rows = bufferedReader.lines().toArray(String[] ::new);
 
       int rowCount = rows.length;
       int colCount = rows[0].split(", ").length;
 
-      var matrix = new double[rowCount][colCount];
+      double[][] matrix = new double[rowCount][colCount];
 
       for (int r = 0; r < rowCount; r++) {
         String[] values = rows[r].split(", ");
@@ -51,7 +53,7 @@ public class ServerDatabase implements IDatabase {
   }
 
   public void remove(String filename) throws RemoteException {
-    var path = Paths.get(filename);
+    Paths path = Paths.get(filename);
 
     if (Files.exists(path)) {
       Files.delete(path);
@@ -62,11 +64,11 @@ public class ServerDatabase implements IDatabase {
 
   public static void main(String[] args) {
     try {
-      var serverDatabase = new ServerDatabase();
-      var stub =
+      ServerDatabase serverDatabase = new ServerDatabase();
+      ServerDatabase stub =
           (ServerDatabase)UnicastRemoteObject.exportObject(serverDatabase, 0);
 
-      var registry = LocateRegistry.createRegistry(6677);
+      LocateRegistry registry = LocateRegistry.createRegistry(6677);
       registry.bind("database_service", stub);
       System.out.println("ServerDatabase pronto");
     } catch (Exception e) {

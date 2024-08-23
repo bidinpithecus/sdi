@@ -54,11 +54,11 @@ public class ServerMatrix implements IMatrix {
 
   public static void main(String[] args) {
     try {
-      var serverMatrix = new ServerMatrix();
-      var stub =
+      ServerMatrix serverMatrix = new ServerMatrix();
+      ServerMatrix stub =
           (ServerMatrix)UnicastRemoteObject.exportObject(serverMatrix, 0);
 
-      var registry = LocateRegistry.createRegistry(6600);
+      LocateRegistry registry = LocateRegistry.createRegistry(6600);
       registry.bind("matrix_service", stub);
       System.out.println("ServerMatrix pronto");
     } catch (Exception e) {
