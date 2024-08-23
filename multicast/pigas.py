@@ -79,17 +79,5 @@ def plot_histogram():
     plt.savefig('histograma.png')
     plt.close()
 
-def main():
-    process_count = 1
-    processes = []
-
-    for _ in range(process_count):
-        p = multiprocessing.Process(target=run_multicast_process, args=(SEND_INTERVAL, RUN_DURATION, MULTICAST_GROUP, MULTICAST_PORT))
-        processes.append(p)
-        p.start()
-
-    for p in processes:
-        p.join()
-
 if __name__ == '__main__':
-    main()
+    run_multicast_process(SEND_INTERVAL, RUN_DURATION, MULTICAST_GROUP, MULTICAST_PORT)
