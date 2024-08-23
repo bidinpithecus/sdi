@@ -1,15 +1,13 @@
-import multiprocessing
 import socket
 import struct
 import time
 import random
-import matplotlib.pyplot as plt
 from collections import defaultdict
 
 MULTICAST_GROUP = '224.1.1.1'
 MULTICAST_PORT = 42069
-SEND_INTERVAL = 2
-RUN_DURATION = 30 # Tempo de execução em segundos
+SEND_INTERVAL = 1
+RUN_DURATION = 5 # Tempo de execução em segundos
 
 frequency_counter = defaultdict(int)
 
@@ -47,6 +45,8 @@ def receive_and_tally(sock, timeout):
     return local_counter
 
 def run_multicast_process(interval, duration, group, port):
+    global buffer
+
     sock = start_multicast_receiver(group, port)
     start_time = time.time()
 
@@ -58,6 +58,7 @@ def run_multicast_process(interval, duration, group, port):
         if received_counter:
             for number, count in received_counter.items():
                 frequency_counter[number] += count
+                buffer += f"{number},"
 
             most_common = max(frequency_counter, key=frequency_counter.get)
             print(f'Número mais comum até agora: {most_common} com {frequency_counter[most_common]} ocorrências')
@@ -66,18 +67,13 @@ def run_multicast_process(interval, duration, group, port):
 
     print('Processo finalizado após o tempo limite.')
 
-    plot_histogram()
-
-def plot_histogram():
-    numbers = list(frequency_counter.keys())
-    counts = list(frequency_counter.values())
-
-    plt.bar(numbers, counts)
-    plt.xlabel('Número')
-    plt.ylabel('Frequência')
-    plt.title('Histograma de Frequência')
-    plt.savefig('histograma.png')
-    plt.close()
-
 if __name__ == '__main__':
+    script_filename = "pigas.sh"
+    results_filename = "pigas.results"
+    buffer = ""
     run_multicast_process(SEND_INTERVAL, RUN_DURATION, MULTICAST_GROUP, MULTICAST_PORT)
+    buffer += "\n"
+    print(f"Resultados salvos no arquivo {results_filename}")
+    print(f"Execute o script {script_filename} para ver os resultados")
+    with open(results_filename, "w+") as pigas:
+        pigas.write(buffer)
