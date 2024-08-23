@@ -30,7 +30,7 @@ public class ServerDatabase implements IDatabase {
   }
 
   public double[][] load(String filename) throws RemoteException {
-    try (var bufferedReader new BufferedReader(new FileReader(filename))) {
+    try (var bufferedReader = new BufferedReader(new FileReader(filename))) {
       String[] rows = bufferedReader.lines().toArray(String[] ::new);
 
       int rowCount = rows.length;

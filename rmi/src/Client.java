@@ -1,7 +1,8 @@
-/*
- * O cliente deve executar as operações com as matrizes e salvar os dados
- * (recuperar e por fim excluir o arquivo)
- */
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+import RMI.IDatabase;
+import RMI.IMatrix;
 
 public class Client {
   public static void main(String[] args) {
