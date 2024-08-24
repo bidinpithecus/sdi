@@ -19,7 +19,6 @@ public class Client {
   public static void main(String[] args) {
     String hostM = args[0];
     String hostDB = args[1];
-
     try {
       Registry registryMatrix = LocateRegistry.getRegistry(hostM, 6600);
       Registry registryDB = LocateRegistry.getRegistry(hostDB, 6677);
@@ -44,9 +43,9 @@ public class Client {
       database_stub.save(nb, "b.txt.bkp");
       database_stub.save(nc, "c.txt.bkp");
 
-      database_stub.remove("a.txt");
-      database_stub.remove("b.txt");
-      database_stub.remove("c.txt");
+      //database_stub.remove("a.txt");
+      //database_stub.remove("b.txt");
+      //database_stub.remove("c.txt");
     } catch (Exception ex) {
       ex.printStackTrace();
     }
