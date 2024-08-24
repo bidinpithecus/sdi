@@ -40,30 +40,34 @@ public class ServerDatabase implements IDatabase {
   }
 
   public double[][] load(String filename) throws RemoteException {
-    try (FileReader fileReader = new FileReader(filename)) {
-      try (BufferedReader bufferedReader =
-               new BufferedReader(fileReader)) {
-        String[] rows = bufferedReader.lines().toArray(String[] ::new);
+    try (FileReader fileReader = new FileReader(filename);
+         BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
+        // Read entire file content as a single string
+        String content = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+        // Split content into rows using "; " delimiter
+        String[] rows = content.split("; ");
+
+        // Determine number of rows and columns
         int rowCount = rows.length;
         int colCount = rows[0].split(", ").length;
 
+        // Initialize matrix
         double[][] matrix = new double[rowCount][colCount];
 
+        // Fill matrix with values
         for (int r = 0; r < rowCount; r++) {
-          String[] values = rows[r].split(", ");
-
-          for (int c = 0; c < colCount; c++) {
-            matrix[r][c] = Double.parseDouble(values[c]);
-          }
+            // Split each row into columns
+            String[] values = rows[r].split(", ");
+            for (int c = 0; c < colCount; c++) {
+                matrix[r][c] = Double.parseDouble(values[c].trim());
+            }
         }
 
         return matrix;
-      }
-    } catch (RemoteException e) {
-      throw e;
     } catch (NumberFormatException | IOException e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
     return null;
   }
