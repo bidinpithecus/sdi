@@ -56,8 +56,8 @@ public class ServerMatrix implements IMatrix {
   public static void main(String[] args) {
     try {
       ServerMatrix serverMatrix = new ServerMatrix();
-      ServerMatrix stub =
-          (ServerMatrix)UnicastRemoteObject.exportObject(serverMatrix, 0);
+      IMatrix stub =
+          (IMatrix)UnicastRemoteObject.exportObject(serverMatrix, 0);
 
       Registry registry = LocateRegistry.createRegistry(6600);
       registry.bind("matrix_service", stub);

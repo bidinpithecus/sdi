@@ -85,8 +85,8 @@ public class ServerDatabase implements IDatabase {
   public static void main(String[] args) {
     try {
       ServerDatabase serverDatabase = new ServerDatabase();
-      ServerDatabase stub =
-          (ServerDatabase)UnicastRemoteObject.exportObject(serverDatabase, 0);
+      IDatabase stub =
+          (IDatabase)UnicastRemoteObject.exportObject(serverDatabase, 0);
 
       Registry registry = LocateRegistry.createRegistry(6677);
       registry.bind("database_service", stub);
