@@ -18,15 +18,24 @@ public class Client {
           (IDatabase)registryDB.lookup("database_service");
       double[][] a = matrix_stub.randfill(100, 100);
       double[][] b = matrix_stub.randfill(100, 100);
+
       double[][] c = matrix_stub.mult(a, b);
 
       database_stub.save(a, "a.txt");
       database_stub.save(b, "b.txt");
+      database_stub.save(c, "c.txt");
+
       double[][] na = database_stub.load("a.txt");
       double[][] nb = database_stub.load("b.txt");
+      double[][] nc = database_stub.load("c.txt");
+
+      database_stub.save(na, "a.txt.bkp");
+      database_stub.save(nb, "b.txt.bkp");
+      database_stub.save(nc, "c.txt.bkp");
+
       database_stub.remove("a.txt");
       database_stub.remove("b.txt");
-
+      database_stub.remove("c.txt");
     } catch (Exception ex) {
       ex.printStackTrace();
     }

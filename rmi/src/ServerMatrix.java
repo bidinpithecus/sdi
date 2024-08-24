@@ -2,6 +2,7 @@ import RMI.IMatrix;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ServerMatrix implements IMatrix {
@@ -14,9 +15,9 @@ public class ServerMatrix implements IMatrix {
     return IntStream.range(0, rows)
         .mapToObj(r
                   -> IntStream.range(0, cols)
-                         .maptoDouble(c -> a[r][c] + b[r][c])
+                         .mapToDouble(c -> a[r][c] + b[r][c])
                          .toArray())
-        .toAray(double[][] ::new);
+        .toArray(double[][] ::new);
   }
 
   public double[][] mult(double[][] a, double[][] b) throws RemoteException {
@@ -58,7 +59,7 @@ public class ServerMatrix implements IMatrix {
       ServerMatrix stub =
           (ServerMatrix)UnicastRemoteObject.exportObject(serverMatrix, 0);
 
-      LocateRegistry registry = LocateRegistry.createRegistry(6600);
+      Registry registry = LocateRegistry.createRegistry(6600);
       registry.bind("matrix_service", stub);
       System.out.println("ServerMatrix pronto");
     } catch (Exception e) {
