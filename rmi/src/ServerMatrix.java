@@ -27,7 +27,7 @@ public class ServerMatrix implements IMatrix {
 
     if (b.length != a[0].length) {
       throw new IllegalArgumentException(
-          "Matrices must have the same dimensions for addition.");
+          "Matrices must have the same dimensions for multiplication.");
     }
 
     return IntStream.range(0, rows)
