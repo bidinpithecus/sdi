@@ -13,11 +13,11 @@ comparar_arquivos() {
     fi
 }
 
-comparar_arquivos "a.txt" "a.txt.bkp"
+comparar_arquivos "matrices/a.txt" "matrices/a.txt.bkp"
 a=$?
-comparar_arquivos "b.txt" "b.txt.bkp"
+comparar_arquivos "matrices/b.txt" "matrices/b.txt.bkp"
 b=$?
-comparar_arquivos "c.txt" "c.txt.bkp"
+comparar_arquivos "matrices/c.txt" "matrices/c.txt.bkp"
 c=$?
 
 if [ "$a" -eq 1 ] && [ "$b" -eq 1 ] && [ "$c" -eq 1 ]; then

@@ -1,3 +1,6 @@
+package ws_rmi;
+
+// Pigas dá 10 pra gente pls ;) 🔥🔥🔥🔥🔥
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -12,5 +15,4 @@ public class ClientPublisher {
 		Endpoint.publish("http://127.0.0.1:9876/start", new ClientImpl());
 		System.out.println("Done publishing");
 	}
-
 }
